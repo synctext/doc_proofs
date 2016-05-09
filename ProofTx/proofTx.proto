@@ -1,0 +1,32 @@
+
+syntax ="proto3";
+
+message ProofTX {
+  enum ProofType {
+    NULL =0;
+    SECP256K1 =1;
+    SECP256K1SHA2 =2;
+  }
+   ProofType type =1;
+   string name = 2;
+   int32 threshold = 3;
+   string data =4;
+  repeated bytes PubKeys =5;
+  repeated bytes Signatures =6;
+  repeated bytes Digests =7;
+  repeated bytes PreImages =8;
+   SupercededBy supercede =9;
+}
+
+message SupercededBy{
+  enum ProofType {
+    NULL =0;
+    SECP256K1 = 1;
+    SECP256K1SHA2 =2;
+  };
+   ProofType type =1;
+   string name = 2;
+  repeated bytes PubKeys = 3;
+  repeated bytes Digests = 4;
+  int32 threshold =5;
+}
