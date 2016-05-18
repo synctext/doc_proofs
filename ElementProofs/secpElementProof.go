@@ -43,28 +43,28 @@ func (b *SecP256k1ElementProof) verifySigs(message string, signatures *[][]byte)
 	validSig := false
 	validatedSigs := *new([]btcec.Signature)
 	usedKeys := make([]bool, len(b.PublicKeys))
-	hasher := fastsha256.New()
-	messageBytes := hasher.Sum([]byte(message))
-
+	messageBytes := fastsha256.Sum256([]byte(message))
 	for _, sigbytes := range *signatures {
 
 		signature, err := btcec.ParseDERSignature(sigbytes, btcec.S256())
 		if err != nil {
+			fmt.Println("Bad signature encoding")
 			return false, nil
 		}
 		validSig = false
 
 		for i, pubKey := range b.PublicKeys {
-			success := signature.Verify(messageBytes, &pubKey)
+			success := signature.Verify(messageBytes[:], &pubKey)
 			if success && (usedKeys[i] == false) {
 				validSig = true
 				validatedSigs = append(validatedSigs, *signature)
 				usedKeys[i] = true
 			}
-			if validSig == false {
-				return false, nil
-			}
 		}
+	}
+
+	if validSig == false {
+		return false, nil
 	}
 	if len(validatedSigs) < b.Threshold {
 		return false, nil
