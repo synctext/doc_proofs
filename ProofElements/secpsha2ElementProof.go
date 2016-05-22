@@ -3,6 +3,7 @@ package ElementProof
 import (
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 
 	"github.com/golang/protobuf/proto"
@@ -47,7 +48,12 @@ func (b *SecP256k1SHA2ElementProof) ToBytes() []byte {
 	for _, preimage := range b.Preimages {
 		store.Preimages = append(store.Preimages, preimage[:])
 	}
-	bufferBytes, err := proto.Marshal(&store)
+
+	metastore := ProofElementStore.ProofElementStore{}
+	metastore.Type = ProofElementStore.ProofElementStore_SECPSHA
+	metastore.Secpsha = &store
+
+	bufferBytes, err := proto.Marshal(&metastore)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -55,11 +61,15 @@ func (b *SecP256k1SHA2ElementProof) ToBytes() []byte {
 }
 
 func (b *SecP256k1SHA2ElementProof) FromBytes(bits []byte) error {
-	store := ProofElementStore.SECPSHA2ProofElementStore{}
-	err := proto.Unmarshal(bits, &store)
+	metastore := ProofElementStore.ProofElementStore{}
+	err := proto.Unmarshal(bits, &metastore)
 	if err != nil {
 		return err
 	}
+	if metastore.Type != ProofElementStore.ProofElementStore_SECPSHA {
+		return errors.New("Expected SECPSHA2 proof")
+	}
+	store := metastore.Secpsha
 	b.ProofName = store.Name
 	b.Data = store.Data
 	b.Supersede = store.SupersededBy

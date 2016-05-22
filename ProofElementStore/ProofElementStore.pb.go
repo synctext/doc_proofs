@@ -9,6 +9,7 @@ It is generated from these files:
 	ProofElementStore.proto
 
 It has these top-level messages:
+	ProofElementStore
 	SECPProofElementStore
 	SECPSHA2ProofElementStore
 */
@@ -22,6 +23,26 @@ import math "math"
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+
+type ProofElementStore_ProofType int32
+
+const (
+	ProofElementStore_SECP    ProofElementStore_ProofType = 0
+	ProofElementStore_SECPSHA ProofElementStore_ProofType = 1
+)
+
+var ProofElementStore_ProofType_name = map[int32]string{
+	0: "SECP",
+	1: "SECPSHA",
+}
+var ProofElementStore_ProofType_value = map[string]int32{
+	"SECP":    0,
+	"SECPSHA": 1,
+}
+
+func (x ProofElementStore_ProofType) String() string {
+	return proto.EnumName(ProofElementStore_ProofType_name, int32(x))
+}
 
 type SECPProofElementStore_ProofElementState int32
 
@@ -75,6 +96,30 @@ func (x SECPSHA2ProofElementStore_ProofElementState) String() string {
 	return proto.EnumName(SECPSHA2ProofElementStore_ProofElementState_name, int32(x))
 }
 
+type ProofElementStore struct {
+	Type    ProofElementStore_ProofType `protobuf:"varint,1,opt,name=type,enum=ProofElementStore_ProofType" json:"type,omitempty"`
+	Secp    *SECPProofElementStore      `protobuf:"bytes,2,opt,name=secp" json:"secp,omitempty"`
+	Secpsha *SECPSHA2ProofElementStore  `protobuf:"bytes,3,opt,name=secpsha" json:"secpsha,omitempty"`
+}
+
+func (m *ProofElementStore) Reset()         { *m = ProofElementStore{} }
+func (m *ProofElementStore) String() string { return proto.CompactTextString(m) }
+func (*ProofElementStore) ProtoMessage()    {}
+
+func (m *ProofElementStore) GetSecp() *SECPProofElementStore {
+	if m != nil {
+		return m.Secp
+	}
+	return nil
+}
+
+func (m *ProofElementStore) GetSecpsha() *SECPSHA2ProofElementStore {
+	if m != nil {
+		return m.Secpsha
+	}
+	return nil
+}
+
 type SECPProofElementStore struct {
 	Name         string                                  `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
 	State        SECPProofElementStore_ProofElementState `protobuf:"varint,2,opt,name=state,enum=SECPProofElementStore_ProofElementState" json:"state,omitempty"`
@@ -106,6 +151,7 @@ func (m *SECPSHA2ProofElementStore) String() string { return proto.CompactTextSt
 func (*SECPSHA2ProofElementStore) ProtoMessage()    {}
 
 func init() {
+	proto.RegisterEnum("ProofElementStore_ProofType", ProofElementStore_ProofType_name, ProofElementStore_ProofType_value)
 	proto.RegisterEnum("SECPProofElementStore_ProofElementState", SECPProofElementStore_ProofElementState_name, SECPProofElementStore_ProofElementState_value)
 	proto.RegisterEnum("SECPSHA2ProofElementStore_ProofElementState", SECPSHA2ProofElementStore_ProofElementState_name, SECPSHA2ProofElementStore_ProofElementState_value)
 }

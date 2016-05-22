@@ -3,6 +3,7 @@ package ElementProof
 import (
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 
 	// "github.com/Skuchain/trade_proofs/ElementProofStore"
@@ -145,7 +146,11 @@ func (b *SecP256k1ElementProof) ToBytes() []byte {
 	for _, sigs := range b.Signatures {
 		store.Signatures = append(store.Signatures, sigs.Serialize())
 	}
-	bufferBytes, err := proto.Marshal(&store)
+	metastore := ProofElementStore.ProofElementStore{}
+	metastore.Type = ProofElementStore.ProofElementStore_SECP
+	metastore.Secp = &store
+
+	bufferBytes, err := proto.Marshal(&metastore)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -153,11 +158,15 @@ func (b *SecP256k1ElementProof) ToBytes() []byte {
 }
 
 func (b *SecP256k1ElementProof) FromBytes(bits []byte) error {
-	store := ProofElementStore.SECPProofElementStore{}
-	err := proto.Unmarshal(bits, &store)
+	metastore := ProofElementStore.ProofElementStore{}
+	err := proto.Unmarshal(bits, &metastore)
 	if err != nil {
 		return err
 	}
+	if metastore.Type != ProofElementStore.ProofElementStore_SECP {
+		return errors.New("Expected SECP proof")
+	}
+	store := metastore.Secp
 	b.ProofName = store.Name
 	b.Data = store.Data
 	b.Supersede = store.SupersededBy

@@ -1,6 +1,17 @@
 
 syntax ="proto3";
 
+
+message ProofElementStore{
+enum ProofType{
+  SECP =0;
+  SECPSHA =1;
+}
+ProofType type = 1;
+SECPProofElementStore secp = 2;
+SECPSHA2ProofElementStore secpsha =3;
+}
+
 message SECPProofElementStore {
   enum ProofElementState {
     Initialized =0;

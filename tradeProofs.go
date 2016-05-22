@@ -28,7 +28,7 @@ import (
 	"github.com/btcsuite/fastsha256"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/skuchain/trade_proofs/ElementProofs"
+	"github.com/skuchain/trade_proofs/ProofElements"
 	"github.com/skuchain/trade_proofs/ProofTx"
 )
 
