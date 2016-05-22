@@ -22,7 +22,7 @@ func (b *SecP256k1SHA2ElementProof) ToBytes() []byte {
 	store := ElementProofStore.SECPSHA2ElementProofStore{}
 	store.Name = b.ProofName
 	store.Data = b.Data
-	store.Supercede = b.Supercede
+	store.Supersede = b.Supersede
 	store.Threshold = int32(b.Threshold)
 	for _, key := range b.PublicKeys {
 		store.PublicKeys = append(store.PublicKeys, key.SerializeCompressed())
@@ -52,7 +52,7 @@ func (b *SecP256k1SHA2ElementProof) FromBytes(bits []byte) error {
 	}
 	b.ProofName = store.Name
 	b.Data = store.Data
-	b.Supercede = store.Supercede
+	b.Supersede = store.Supersede
 	b.Threshold = int(store.Threshold)
 	for _, key := range store.PublicKeys {
 		publicKey, err := btcec.ParsePubKey(key, btcec.S256())
@@ -108,7 +108,7 @@ func (b *SecP256k1SHA2ElementProof) ToJSON() []byte {
 		State        string
 		Signatures   []string
 		PublicKeys   []string
-		SupercededBy string
+		SupersededBy string
 		Threshold    int
 		Data         string
 		Digests      []string
@@ -124,7 +124,7 @@ func (b *SecP256k1SHA2ElementProof) ToJSON() []byte {
 		jsonProof.State = "Signed"
 	case Revoked:
 		jsonProof.State = "Revoked"
-	case SuperCeded:
+	case Superseded:
 		jsonProof.State = "SupercededBy"
 	}
 	for _, sig := range b.Signatures {
@@ -133,7 +133,7 @@ func (b *SecP256k1SHA2ElementProof) ToJSON() []byte {
 	for _, pubKey := range b.PublicKeys {
 		jsonProof.PublicKeys = append(jsonProof.PublicKeys, hex.EncodeToString(pubKey.SerializeCompressed()))
 	}
-	jsonProof.SupercededBy = b.Supercede
+	jsonProof.SupersededBy = b.Supersede
 	jsonProof.Threshold = b.Threshold
 	jsonProof.Data = b.Data
 	for _, digest := range b.Digests {

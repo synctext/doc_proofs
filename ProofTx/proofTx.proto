@@ -15,10 +15,10 @@ message ProofTX {
   repeated bytes Signatures =6;
   repeated bytes Digests =7;
   repeated bytes PreImages =8;
-   SupercededBy supercede =9;
+   SupersededBy Supersede =9;
 }
 
-message SupercededBy{
+message SupersededBy{
   enum ProofType {
     NULL =0;
     SECP256K1 = 1;

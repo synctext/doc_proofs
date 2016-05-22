@@ -6,14 +6,14 @@ message SECPElementProofStore {
     Initialized =0;
     Signed =1;
     Revoked =2;
-    SuperCeded =3;
+    Superseded =3;
   }
   string name = 1;
   int32 threshold = 3;
   string data =4;
   repeated bytes PublicKeys =5;
   repeated bytes Signatures =6;
-  string supercede =7;
+  string SupersededBy =7;
 }
 
 message SECPSHA2ElementProofStore {
@@ -21,7 +21,7 @@ message SECPSHA2ElementProofStore {
     Initialized =0;
     Signed =1;
     Revoked =2;
-    SuperCeded =3;
+    Superseded =3;
   }
   string name = 1;
   int32 threshold = 3;
@@ -30,5 +30,5 @@ message SECPSHA2ElementProofStore {
   repeated bytes Signatures =6;
   repeated bytes Digests =7;
   repeated bytes Preimages =8;
-  string supercede =9;
+  string supersededBy =9;
 }

@@ -10,7 +10,7 @@ It is generated from these files:
 
 It has these top-level messages:
 	ProofTX
-	SupercededBy
+	SupersededBy
 */
 package proofTx
 
@@ -46,27 +46,27 @@ func (x ProofTX_ProofType) String() string {
 	return proto.EnumName(ProofTX_ProofType_name, int32(x))
 }
 
-type SupercededBy_ProofType int32
+type SupersededBy_ProofType int32
 
 const (
-	SupercededBy_NULL          SupercededBy_ProofType = 0
-	SupercededBy_SECP256K1     SupercededBy_ProofType = 1
-	SupercededBy_SECP256K1SHA2 SupercededBy_ProofType = 2
+	SupersededBy_NULL          SupersededBy_ProofType = 0
+	SupersededBy_SECP256K1     SupersededBy_ProofType = 1
+	SupersededBy_SECP256K1SHA2 SupersededBy_ProofType = 2
 )
 
-var SupercededBy_ProofType_name = map[int32]string{
+var SupersededBy_ProofType_name = map[int32]string{
 	0: "NULL",
 	1: "SECP256K1",
 	2: "SECP256K1SHA2",
 }
-var SupercededBy_ProofType_value = map[string]int32{
+var SupersededBy_ProofType_value = map[string]int32{
 	"NULL":          0,
 	"SECP256K1":     1,
 	"SECP256K1SHA2": 2,
 }
 
-func (x SupercededBy_ProofType) String() string {
-	return proto.EnumName(SupercededBy_ProofType_name, int32(x))
+func (x SupersededBy_ProofType) String() string {
+	return proto.EnumName(SupersededBy_ProofType_name, int32(x))
 }
 
 type ProofTX struct {
@@ -78,33 +78,33 @@ type ProofTX struct {
 	Signatures [][]byte          `protobuf:"bytes,6,rep,name=Signatures,proto3" json:"Signatures,omitempty"`
 	Digests    [][]byte          `protobuf:"bytes,7,rep,name=Digests,proto3" json:"Digests,omitempty"`
 	PreImages  [][]byte          `protobuf:"bytes,8,rep,name=PreImages,proto3" json:"PreImages,omitempty"`
-	Supercede  *SupercededBy     `protobuf:"bytes,9,opt,name=supercede" json:"supercede,omitempty"`
+	Supersede  *SupersededBy     `protobuf:"bytes,9,opt,name=Supersede" json:"Supersede,omitempty"`
 }
 
 func (m *ProofTX) Reset()         { *m = ProofTX{} }
 func (m *ProofTX) String() string { return proto.CompactTextString(m) }
 func (*ProofTX) ProtoMessage()    {}
 
-func (m *ProofTX) GetSupercede() *SupercededBy {
+func (m *ProofTX) GetSupersede() *SupersededBy {
 	if m != nil {
-		return m.Supercede
+		return m.Supersede
 	}
 	return nil
 }
 
-type SupercededBy struct {
-	Type      SupercededBy_ProofType `protobuf:"varint,1,opt,name=type,enum=SupercededBy_ProofType" json:"type,omitempty"`
+type SupersededBy struct {
+	Type      SupersededBy_ProofType `protobuf:"varint,1,opt,name=type,enum=SupersededBy_ProofType" json:"type,omitempty"`
 	Name      string                 `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
 	PubKeys   [][]byte               `protobuf:"bytes,3,rep,name=PubKeys,proto3" json:"PubKeys,omitempty"`
 	Digests   [][]byte               `protobuf:"bytes,4,rep,name=Digests,proto3" json:"Digests,omitempty"`
 	Threshold int32                  `protobuf:"varint,5,opt,name=threshold" json:"threshold,omitempty"`
 }
 
-func (m *SupercededBy) Reset()         { *m = SupercededBy{} }
-func (m *SupercededBy) String() string { return proto.CompactTextString(m) }
-func (*SupercededBy) ProtoMessage()    {}
+func (m *SupersededBy) Reset()         { *m = SupersededBy{} }
+func (m *SupersededBy) String() string { return proto.CompactTextString(m) }
+func (*SupersededBy) ProtoMessage()    {}
 
 func init() {
 	proto.RegisterEnum("ProofTX_ProofType", ProofTX_ProofType_name, ProofTX_ProofType_value)
-	proto.RegisterEnum("SupercededBy_ProofType", SupercededBy_ProofType_name, SupercededBy_ProofType_value)
+	proto.RegisterEnum("SupersededBy_ProofType", SupersededBy_ProofType_name, SupersededBy_ProofType_value)
 }

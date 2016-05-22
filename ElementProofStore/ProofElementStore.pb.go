@@ -29,20 +29,20 @@ const (
 	SECPElementProofStore_Initialized SECPElementProofStore_ElementProofState = 0
 	SECPElementProofStore_Signed      SECPElementProofStore_ElementProofState = 1
 	SECPElementProofStore_Revoked     SECPElementProofStore_ElementProofState = 2
-	SECPElementProofStore_SuperCeded  SECPElementProofStore_ElementProofState = 3
+	SECPElementProofStore_Superseded  SECPElementProofStore_ElementProofState = 3
 )
 
 var SECPElementProofStore_ElementProofState_name = map[int32]string{
 	0: "Initialized",
 	1: "Signed",
 	2: "Revoked",
-	3: "SuperCeded",
+	3: "Superseded",
 }
 var SECPElementProofStore_ElementProofState_value = map[string]int32{
 	"Initialized": 0,
 	"Signed":      1,
 	"Revoked":     2,
-	"SuperCeded":  3,
+	"Superseded":  3,
 }
 
 func (x SECPElementProofStore_ElementProofState) String() string {
@@ -55,20 +55,20 @@ const (
 	SECPSHA2ElementProofStore_Initialized SECPSHA2ElementProofStore_ElementProofState = 0
 	SECPSHA2ElementProofStore_Signed      SECPSHA2ElementProofStore_ElementProofState = 1
 	SECPSHA2ElementProofStore_Revoked     SECPSHA2ElementProofStore_ElementProofState = 2
-	SECPSHA2ElementProofStore_SuperCeded  SECPSHA2ElementProofStore_ElementProofState = 3
+	SECPSHA2ElementProofStore_Superseded  SECPSHA2ElementProofStore_ElementProofState = 3
 )
 
 var SECPSHA2ElementProofStore_ElementProofState_name = map[int32]string{
 	0: "Initialized",
 	1: "Signed",
 	2: "Revoked",
-	3: "SuperCeded",
+	3: "Superseded",
 }
 var SECPSHA2ElementProofStore_ElementProofState_value = map[string]int32{
 	"Initialized": 0,
 	"Signed":      1,
 	"Revoked":     2,
-	"SuperCeded":  3,
+	"Superseded":  3,
 }
 
 func (x SECPSHA2ElementProofStore_ElementProofState) String() string {
@@ -81,7 +81,7 @@ type SECPElementProofStore struct {
 	Data       string   `protobuf:"bytes,4,opt,name=data" json:"data,omitempty"`
 	PublicKeys [][]byte `protobuf:"bytes,5,rep,name=PublicKeys,proto3" json:"PublicKeys,omitempty"`
 	Signatures [][]byte `protobuf:"bytes,6,rep,name=Signatures,proto3" json:"Signatures,omitempty"`
-	Supercede  string   `protobuf:"bytes,7,opt,name=supercede" json:"supercede,omitempty"`
+	Supersede  string   `protobuf:"bytes,7,opt,name=Supersede" json:"Supersede,omitempty"`
 }
 
 func (m *SECPElementProofStore) Reset()         { *m = SECPElementProofStore{} }
@@ -96,7 +96,7 @@ type SECPSHA2ElementProofStore struct {
 	Signatures [][]byte `protobuf:"bytes,6,rep,name=Signatures,proto3" json:"Signatures,omitempty"`
 	Digests    [][]byte `protobuf:"bytes,7,rep,name=Digests,proto3" json:"Digests,omitempty"`
 	Preimages  [][]byte `protobuf:"bytes,8,rep,name=Preimages,proto3" json:"Preimages,omitempty"`
-	Supercede  string   `protobuf:"bytes,9,opt,name=supercede" json:"supercede,omitempty"`
+	Supersede  string   `protobuf:"bytes,9,opt,name=Supersede" json:"Supersede,omitempty"`
 }
 
 func (m *SECPSHA2ElementProofStore) Reset()         { *m = SECPSHA2ElementProofStore{} }

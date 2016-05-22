@@ -54,8 +54,8 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                 },
                 {
                     "rule": "optional",
-                    "type": "SupercededBy",
-                    "name": "supercede",
+                    "type": "SupersededBy",
+                    "name": "Supersede",
                     "id": 9
                 }
             ],
@@ -80,7 +80,7 @@ module.exports = require("protobufjs").newBuilder({})['import']({
             ]
         },
         {
-            "name": "SupercededBy",
+            "name": "SupersededBy",
             "fields": [
                 {
                     "rule": "optional",
