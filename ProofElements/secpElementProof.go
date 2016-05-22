@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/golang/protobuf/proto"
-	"github.com/skuchain/trade_proofs/ElementProofStore"
-
+	// "github.com/Skuchain/trade_proofs/ElementProofStore"
 	"github.com/btcsuite/btcd/btcec"
 	"github.com/btcsuite/fastsha256"
+	"github.com/golang/protobuf/proto"
+	"github.com/skuchain/trade_proofs/ProofElementStore"
 )
 
 type SecP256k1ElementProof struct {
@@ -123,11 +123,22 @@ func (b *SecP256k1ElementProof) Fulfillment() string {
 }
 
 func (b *SecP256k1ElementProof) ToBytes() []byte {
-	store := ElementProofStore.SECPElementProofStore{}
+	store := ProofElementStore.SECPProofElementStore{}
 	store.Name = b.ProofName
 	store.Data = b.Data
-	store.Supersede = b.Supersede
+	store.SupersededBy = b.Supersede
 	store.Threshold = int32(b.Threshold)
+	switch b.State {
+	case Initialized:
+		store.State = ProofElementStore.SECPProofElementStore_Initialized
+	case Signed:
+		store.State = ProofElementStore.SECPProofElementStore_Signed
+	case Revoked:
+		store.State = ProofElementStore.SECPProofElementStore_Revoked
+	case Superseded:
+		store.State = ProofElementStore.SECPProofElementStore_Superseded
+	}
+
 	for _, key := range b.PublicKeys {
 		store.PublicKeys = append(store.PublicKeys, key.SerializeCompressed())
 	}
@@ -142,15 +153,25 @@ func (b *SecP256k1ElementProof) ToBytes() []byte {
 }
 
 func (b *SecP256k1ElementProof) FromBytes(bits []byte) error {
-	store := ElementProofStore.SECPElementProofStore{}
+	store := ProofElementStore.SECPProofElementStore{}
 	err := proto.Unmarshal(bits, &store)
 	if err != nil {
 		return err
 	}
 	b.ProofName = store.Name
 	b.Data = store.Data
-	b.Supersede = store.Supersede
+	b.Supersede = store.SupersededBy
 	b.Threshold = int(store.Threshold)
+	switch store.State {
+	case ProofElementStore.SECPProofElementStore_Initialized:
+		b.State = Initialized
+	case ProofElementStore.SECPProofElementStore_Signed:
+		b.State = Signed
+	case ProofElementStore.SECPProofElementStore_Revoked:
+		b.State = Revoked
+	case ProofElementStore.SECPProofElementStore_Superseded:
+		b.State = Superseded
+	}
 	for _, key := range store.PublicKeys {
 		publicKey, err := btcec.ParsePubKey(key, btcec.S256())
 		if err != nil {

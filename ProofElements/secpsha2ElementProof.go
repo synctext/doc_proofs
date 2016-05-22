@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/skuchain/trade_proofs/ElementProofStore"
+	"github.com/skuchain/trade_proofs/ProofElementStore"
 
 	"github.com/btcsuite/btcd/btcec"
 	"github.com/btcsuite/fastsha256"
@@ -19,11 +19,21 @@ type SecP256k1SHA2ElementProof struct {
 }
 
 func (b *SecP256k1SHA2ElementProof) ToBytes() []byte {
-	store := ElementProofStore.SECPSHA2ElementProofStore{}
+	store := ProofElementStore.SECPSHA2ProofElementStore{}
 	store.Name = b.ProofName
 	store.Data = b.Data
-	store.Supersede = b.Supersede
+	store.SupersededBy = b.Supersede
 	store.Threshold = int32(b.Threshold)
+	switch b.State {
+	case Initialized:
+		store.State = ProofElementStore.SECPSHA2ProofElementStore_Initialized
+	case Signed:
+		store.State = ProofElementStore.SECPSHA2ProofElementStore_Signed
+	case Revoked:
+		store.State = ProofElementStore.SECPSHA2ProofElementStore_Revoked
+	case Superseded:
+		store.State = ProofElementStore.SECPSHA2ProofElementStore_Superseded
+	}
 	for _, key := range b.PublicKeys {
 		store.PublicKeys = append(store.PublicKeys, key.SerializeCompressed())
 	}
@@ -45,15 +55,25 @@ func (b *SecP256k1SHA2ElementProof) ToBytes() []byte {
 }
 
 func (b *SecP256k1SHA2ElementProof) FromBytes(bits []byte) error {
-	store := ElementProofStore.SECPSHA2ElementProofStore{}
+	store := ProofElementStore.SECPSHA2ProofElementStore{}
 	err := proto.Unmarshal(bits, &store)
 	if err != nil {
 		return err
 	}
 	b.ProofName = store.Name
 	b.Data = store.Data
-	b.Supersede = store.Supersede
+	b.Supersede = store.SupersededBy
 	b.Threshold = int(store.Threshold)
+	switch store.State {
+	case ProofElementStore.SECPSHA2ProofElementStore_Initialized:
+		b.State = Initialized
+	case ProofElementStore.SECPSHA2ProofElementStore_Signed:
+		b.State = Signed
+	case ProofElementStore.SECPSHA2ProofElementStore_Revoked:
+		b.State = Revoked
+	case ProofElementStore.SECPSHA2ProofElementStore_Superseded:
+		b.State = Superseded
+	}
 	for _, key := range store.PublicKeys {
 		publicKey, err := btcec.ParsePubKey(key, btcec.S256())
 		if err != nil {

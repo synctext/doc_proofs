@@ -1,14 +1,15 @@
 
 syntax ="proto3";
 
-message SECPElementProofStore {
-  enum ElementProofState {
+message SECPProofElementStore {
+  enum ProofElementState {
     Initialized =0;
     Signed =1;
     Revoked =2;
     Superseded =3;
   }
   string name = 1;
+  ProofElementState state =2;
   int32 threshold = 3;
   string data =4;
   repeated bytes PublicKeys =5;
@@ -16,14 +17,15 @@ message SECPElementProofStore {
   string SupersededBy =7;
 }
 
-message SECPSHA2ElementProofStore {
-  enum ElementProofState {
+message SECPSHA2ProofElementStore {
+  enum ProofElementState {
     Initialized =0;
     Signed =1;
     Revoked =2;
     Superseded =3;
   }
   string name = 1;
+  ProofElementState state =2;
   int32 threshold = 3;
   string data =4;
   repeated bytes PublicKeys =5;
