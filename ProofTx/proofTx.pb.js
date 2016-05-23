@@ -55,7 +55,7 @@ module.exports = require("protobufjs").newBuilder({})['import']({
                 {
                     "rule": "optional",
                     "type": "SupersededBy",
-                    "name": "Supersede",
+                    "name": "supersede",
                     "id": 9
                 }
             ],
