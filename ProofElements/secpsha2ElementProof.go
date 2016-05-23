@@ -23,7 +23,7 @@ func (b *SecP256k1SHA2ElementProof) ToBytes() []byte {
 	store := ProofElementStore.SECPSHA2ProofElementStore{}
 	store.Name = b.ProofName
 	store.Data = b.Data
-	store.SupersededBy = b.Supersede
+	store.SupersededBy = b.SupersededBy
 	store.Threshold = int32(b.Threshold)
 	switch b.State {
 	case Initialized:
@@ -72,7 +72,7 @@ func (b *SecP256k1SHA2ElementProof) FromBytes(bits []byte) error {
 	store := metastore.Secpsha
 	b.ProofName = store.Name
 	b.Data = store.Data
-	b.Supersede = store.SupersededBy
+	b.SupersededBy = store.SupersededBy
 	b.Threshold = int(store.Threshold)
 	switch store.State {
 	case ProofElementStore.SECPSHA2ProofElementStore_Initialized:
@@ -163,7 +163,7 @@ func (b *SecP256k1SHA2ElementProof) ToJSON() []byte {
 	for _, pubKey := range b.PublicKeys {
 		jsonProof.PublicKeys = append(jsonProof.PublicKeys, hex.EncodeToString(pubKey.SerializeCompressed()))
 	}
-	jsonProof.SupersededBy = b.Supersede
+	jsonProof.SupersededBy = b.SupersededBy
 	jsonProof.Threshold = b.Threshold
 	jsonProof.Data = b.Data
 	for _, digest := range b.Digests {

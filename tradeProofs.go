@@ -221,7 +221,7 @@ func (t *tradeProofsChainCode) Invoke(stub *shim.ChaincodeStub, function string,
 		digestHex := hex.EncodeToString(supersedeDigest)
 		err = secpProof.FromBytes(proofBytes)
 		if err == nil {
-			result := secpProof.SuperSede(&argsProof.Signatures, digestHex)
+			result := secpProof.Supersede(&argsProof.Signatures, digestHex)
 			if result == false {
 				return nil, errors.New("Invalid Signatures")
 			}
@@ -232,7 +232,7 @@ func (t *tradeProofsChainCode) Invoke(stub *shim.ChaincodeStub, function string,
 
 		err = secpShaProof.FromBytes(proofBytes)
 		if err == nil {
-			result := secpShaProof.SuperSede(&argsProof.Signatures, argsProof.Supersede.Name)
+			result := secpShaProof.Supersede(&argsProof.Signatures, argsProof.Supersede.Name)
 			if result == false {
 				return nil, errors.New("Invalid Signatures")
 			}

@@ -14,13 +14,13 @@ import (
 )
 
 type SecP256k1ElementProof struct {
-	ProofName  string
-	State      SigState
-	Signatures []btcec.Signature
-	PublicKeys []btcec.PublicKey
-	Supersede  string
-	Threshold  int
-	Data       string
+	ProofName    string
+	State        SigState
+	Signatures   []btcec.Signature
+	PublicKeys   []btcec.PublicKey
+	SupersededBy string
+	Threshold    int
+	Data         string
 }
 
 //PubKeys hello
@@ -72,16 +72,16 @@ func (b *SecP256k1ElementProof) verifySigs(message string, signatures *[][]byte)
 	}
 	return validSig, validatedSigs
 }
-func (b *SecP256k1ElementProof) SuperSede(signatures *[][]byte, supersededBy string) bool {
+func (b *SecP256k1ElementProof) Supersede(signatures *[][]byte, supersededBy string) bool {
 
-	success, sigs := b.verifySigs(b.ProofName+":Superseded", signatures)
+	success, sigs := b.verifySigs(b.ProofName+":superseded:"+supersededBy, signatures)
 	if !success {
 		return false
 	}
 
 	if b.State == Initialized || b.State == Signed || b.State == Revoked {
 		b.State = Superseded
-		b.Supersede = supersededBy
+		b.SupersededBy = supersededBy
 		b.Signatures = sigs
 		return true
 	}
@@ -127,7 +127,7 @@ func (b *SecP256k1ElementProof) ToBytes() []byte {
 	store := ProofElementStore.SECPProofElementStore{}
 	store.Name = b.ProofName
 	store.Data = b.Data
-	store.SupersededBy = b.Supersede
+	store.SupersededBy = b.SupersededBy
 	store.Threshold = int32(b.Threshold)
 	switch b.State {
 	case Initialized:
@@ -169,7 +169,7 @@ func (b *SecP256k1ElementProof) FromBytes(bits []byte) error {
 	store := metastore.Secp
 	b.ProofName = store.Name
 	b.Data = store.Data
-	b.Supersede = store.SupersededBy
+	b.SupersededBy = store.SupersededBy
 	b.Threshold = int(store.Threshold)
 	switch store.State {
 	case ProofElementStore.SECPProofElementStore_Initialized:
@@ -196,10 +196,6 @@ func (b *SecP256k1ElementProof) FromBytes(bits []byte) error {
 		b.Signatures = append(b.Signatures, *signature)
 	}
 	return nil
-}
-
-func (b *SecP256k1ElementProof) SupersededBy() string {
-	return b.Supersede
 }
 
 func (b *SecP256k1ElementProof) ToJSON() []byte {
@@ -231,7 +227,7 @@ func (b *SecP256k1ElementProof) ToJSON() []byte {
 	for _, pubKey := range b.PublicKeys {
 		jsonBracket.PublicKeys = append(jsonBracket.PublicKeys, hex.EncodeToString(pubKey.SerializeCompressed()))
 	}
-	jsonBracket.SupersededBy = b.Supersede
+	jsonBracket.SupersededBy = b.SupersededBy
 	jsonBracket.Threshold = b.Threshold
 	jsonBracket.Data = b.Data
 
