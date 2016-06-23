@@ -19,16 +19,6 @@ type SecP256k1SHA2ElementProof struct {
 	Digests   [][32]byte
 }
 
-func makeSecPShaProof(name string, threshold int, keys []btcec.PublicKey, digests [][32]byte)*SecP256k1SHA2ElementProof{
-	newProof := new(ElementProof.SecP256k1SHA2ElementProof)
-	newProof.ProofName = name
-	newProof.State = ElementProof.Initialized
-	newProof.Threshold = int(threshold)
-	newProof.PublicKeys = keys
-	newProof.Digests = digests
-	return &newProof
-}
-
 func (b *SecP256k1SHA2ElementProof) ToBytes() []byte {
 	store := ProofElementStore.SECPSHA2ProofElementStore{}
 	store.Name = b.ProofName

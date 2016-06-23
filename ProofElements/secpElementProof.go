@@ -11,7 +11,6 @@ import (
 	"github.com/btcsuite/fastsha256"
 	"github.com/golang/protobuf/proto"
 	"github.com/skuchain/trade_proofs/ProofElementStore"
-	"github.com/skuchain/trade_proofs/ProofElements"
 )
 
 type SecP256k1ElementProof struct {
@@ -22,15 +21,6 @@ type SecP256k1ElementProof struct {
 	SupersededBy string
 	Threshold    int
 	Data         string
-}
-
-func makeSecPProof(name string, threshold int, keys []btcec.PublicKey) *SecP256k1ElementProof {
-	newProof := new(SecP256k1ElementProof)
-	newProof.ProofName = name
-	newProof.State = ElementProof.Initialized
-	newProof.Threshold = int(threshold)
-	newProof.PublicKeys = keys
-	return newProof
 }
 
 //PubKeys hello
@@ -246,4 +236,8 @@ func (b *SecP256k1ElementProof) ToJSON() []byte {
 		return nil
 	}
 	return jsonstring
+}
+
+func VerifyIdentities(idKeys []btcec.PublicKey, uuid string) bool {
+	return true
 }
