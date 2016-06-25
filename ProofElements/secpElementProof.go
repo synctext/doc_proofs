@@ -238,6 +238,29 @@ func (b *SecP256k1ElementProof) ToJSON() []byte {
 	return jsonstring
 }
 
-func VerifyIdentities(idKeys []btcec.PublicKey, uuid string) bool {
-	return true
+func (b *SecP256k1ElementProof) VerifyIdentities(idKeys []btcec.PublicKey, uuid string) bool {
+	hashedUUID := fastsha256.Sum256([]byte(uuid))
+	doubleHashedUUID := fastsha256.Sum256(hashedUUID[:])
+	encodedHash := hex.EncodeToString(doubleHashedUUID[:])
+	if encodedHash != b.ProofName {
+		return false
+	}
+	curve := btcec.S256()
+	offsetX, offsetY := curve.ScalarBaseMult(hashedUUID[:])
+	usedKeys := make([]bool, len(b.PublicKeys))
+	countUsed := 0
+
+	for _, idkey := range idKeys {
+		offsettedX, offsettedY := curve.Add(idkey.X, idkey.Y, offsetX, offsetY)
+		for i, key := range b.PublicKeys {
+			if key.X == offsettedX && key.Y == offsettedY {
+				usedKeys[i] = true
+				countUsed++
+			}
+		}
+	}
+	if countUsed == len(b.PublicKeys) {
+		return true
+	}
+	return false
 }
