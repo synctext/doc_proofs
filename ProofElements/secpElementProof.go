@@ -16,11 +16,11 @@ import (
 	"errors"
 	"fmt"
 
-	// "github.com/Skuchain/trade_proofs/ElementProofStore"
+	// "github.com/Skuchain/doc_proofs/ElementProofStore"
 	"github.com/btcsuite/btcd/btcec"
 	"github.com/btcsuite/fastsha256"
 	"github.com/golang/protobuf/proto"
-	"github.com/skuchain/trade_proofs/ProofElementStore"
+	"github.com/skuchain/doc_proofs/ProofElementStore"
 )
 
 type SecP256k1ElementProof struct {

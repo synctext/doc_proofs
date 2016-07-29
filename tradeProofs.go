@@ -18,22 +18,22 @@ import (
 	"github.com/btcsuite/fastsha256"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/skuchain/trade_proofs/ProofElements"
-	"github.com/skuchain/trade_proofs/ProofTx"
+	"github.com/skuchain/doc_proofs/ProofElements"
+	"github.com/skuchain/doc_proofs/ProofTx"
 )
 
 // This chaincode implements the ledger operations for the proofchaincode
 
 // ProofChainCode example simple Chaincode implementation
-type tradeProofsChainCode struct {
+type docProofsChainCode struct {
 }
 
-func (t *tradeProofsChainCode) Init(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
+func (t *docProofsChainCode) Init(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 	return nil, nil
 }
 
 //ProofChainCode.Invoke runs a transaction against the current state
-func (t *tradeProofsChainCode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
+func (t *docProofsChainCode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 
 	//Proofs Chaincode should have one transaction argument. This is body of serialized protobuf
 	argsBytes, err := hex.DecodeString(args[0])
@@ -308,7 +308,7 @@ func (t *tradeProofsChainCode) Invoke(stub *shim.ChaincodeStub, function string,
 }
 
 // Query callback representing the query of a chaincode
-func (t *tradeProofsChainCode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
+func (t *docProofsChainCode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 
 	switch function {
 	case "status":
@@ -338,7 +338,7 @@ func (t *tradeProofsChainCode) Query(stub *shim.ChaincodeStub, function string, 
 }
 
 func main() {
-	err := shim.Start(new(tradeProofsChainCode))
+	err := shim.Start(new(docProofsChainCode))
 	if err != nil {
 		fmt.Printf("Error starting chaincode: %s", err)
 	}

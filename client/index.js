@@ -8,9 +8,9 @@ var https = require('https');
 var async = require('async');
 var rest = require(__dirname + '/lib/rest.js');
 
-var HYPERLEDGER_SERVER="hyperledger.brackets.trade";
+var HYPERLEDGER_SERVER="hyperledger.brackets.doc";
 
-var CHAINCODENAME ="tradeproofs";
+var CHAINCODENAME ="docproofs";
 
 var enrollId="";
 

@@ -12,7 +12,7 @@ package ElementProof_test
 import (
 	"testing"
 
-	"github.com/skuchain/trade_proofs/ProofElements"
+	"github.com/skuchain/doc_proofs/ProofElements"
 )
 
 func TestInitialState(t *testing.T) {
