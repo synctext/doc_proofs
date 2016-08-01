@@ -171,7 +171,7 @@ This protocol is blockchain agnostic. This particular implementation is within t
  If the Proofs are valid the Query tx will return the json of the 43125678976 and 4659252345 elements
  ## Verifcation Diagram
 
-
+```
  Request a Root Object
    and Purchase Order
                            +------------------------------+
@@ -231,3 +231,4 @@ This protocol is blockchain agnostic. This particular implementation is within t
                                            |              |
                                            |              |
                                            +--------------+
+```
