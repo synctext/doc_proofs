@@ -28,7 +28,7 @@ This protocol is blockchain agnostic. This particular implementation is within t
  Proof of Purchase Order is made up several distinct components inside a distributed ledger
  called Proof Elements.
 
-
+```
 
                    Simple Proof of Purchase Order
 
@@ -61,7 +61,7 @@ This protocol is blockchain agnostic. This particular implementation is within t
  |  |   Sigs: Buyer & Seller sig      |  |
  |  +---------------------------------+  |
  +---------------------------------------+
-
+```
 
 
  When a modification is sent, a set of transactions introduces a superseding proof
@@ -72,7 +72,7 @@ This protocol is blockchain agnostic. This particular implementation is within t
 
 
       Purchase Order with Mod
-
+```
  +-----------------------------------------------------------------------------------------+
  |             ID                                                                          |
  |         +--------------+                                                                |
@@ -102,7 +102,7 @@ This protocol is blockchain agnostic. This particular implementation is within t
  |  |   Sigs: Buyer & Seller sig      |                                                    |
  |  +---------------------------------+                                                    |
  +-----------------------------------------------------------------------------------------+
-
+```
 
 
  If a new Proof element is introduced in to a Purchase Order Proof, the Head element is updated to include a commitment to the new proof element.
@@ -110,7 +110,7 @@ This protocol is blockchain agnostic. This particular implementation is within t
 
 
                   Purchase Order with Addition
-
+```
     +----------------------------------------------------------------------+
     |             ID                                ID                     |
     |         +--------------+                  +--------------+           |
@@ -149,7 +149,7 @@ This protocol is blockchain agnostic. This particular implementation is within t
     |                              |   Sigs: Buyer & Seller sig      |     |
     |                              +---------------------------------+     |
     +----------------------------------------------------------------------+
-
+```
 
  #Verifying Proofs against the Ledger.
  Verification is done under under a capabilities model.
