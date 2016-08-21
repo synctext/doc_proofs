@@ -7,13 +7,13 @@ package btcec_test
 import (
 	"bytes"
 	"crypto/rand"
+	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
 	"math/big"
 	"testing"
 
 	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/fastsha256"
 )
 
 type signatureTest struct {
@@ -559,7 +559,7 @@ func TestRFC6979(t *testing.T) {
 
 	for i, test := range tests {
 		privKey, _ := btcec.PrivKeyFromBytes(btcec.S256(), decodeHex(test.key))
-		hash := fastsha256.Sum256([]byte(test.msg))
+		hash := sha256.Sum256([]byte(test.msg))
 
 		// Ensure deterministically generated nonce is the expected value.
 		gotNonce := btcec.TstNonceRFC6979(privKey.D, hash[:]).Bytes()
