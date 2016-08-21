@@ -16,7 +16,6 @@ import (
 	"errors"
 	"fmt"
 
-	// "github.com/Skuchain/doc_proofs/ElementProofStore"
 	"github.com/btcsuite/btcd/btcec"
 	"github.com/btcsuite/fastsha256"
 	"github.com/golang/protobuf/proto"
