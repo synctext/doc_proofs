@@ -10,12 +10,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 package main
 
 import (
+	"crypto/sha256"
 	"encoding/hex"
 	"errors"
 	"fmt"
 
 	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/fastsha256"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/skuchain/doc_proofs/ProofElements"
@@ -206,7 +206,7 @@ func (t *docProofsChainCode) Invoke(stub *shim.ChaincodeStub, function string, a
 		secpProof := new(ElementProof.SecP256k1ElementProof)
 		secpShaProof := new(ElementProof.SecP256k1SHA2ElementProof)
 		supersededBits, err := proto.Marshal(argsProof.GetSupersede())
-		supersedeHasher := fastsha256.New()
+		supersedeHasher := sha256.New()
 		supersedeDigest := supersedeHasher.Sum(supersededBits)
 		digestHex := hex.EncodeToString(supersedeDigest)
 		err = secpProof.FromBytes(proofBytes)

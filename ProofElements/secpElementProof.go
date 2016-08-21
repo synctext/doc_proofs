@@ -11,13 +11,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 package ElementProof
 
 import (
+	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
 
 	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/fastsha256"
 	"github.com/golang/protobuf/proto"
 	"github.com/skuchain/doc_proofs/ProofElementStore"
 )
@@ -53,7 +53,7 @@ func (b *SecP256k1ElementProof) verifySigs(message string, signatures *[][]byte)
 	validSig := false
 	validatedSigs := *new([]btcec.Signature)
 	usedKeys := make([]bool, len(b.PublicKeys))
-	messageBytes := fastsha256.Sum256([]byte(message))
+	messageBytes := sha256.Sum256([]byte(message))
 	for _, sigbytes := range *signatures {
 
 		signature, err := btcec.ParseDERSignature(sigbytes, btcec.S256())
@@ -248,8 +248,8 @@ func (b *SecP256k1ElementProof) ToJSON() []byte {
 }
 
 func (b *SecP256k1ElementProof) VerifyIdentities(idKeys []btcec.PublicKey, uuid string) bool {
-	hashedUUID := fastsha256.Sum256([]byte(uuid))
-	doubleHashedUUID := fastsha256.Sum256(hashedUUID[:])
+	hashedUUID := sha256.Sum256([]byte(uuid))
+	doubleHashedUUID := sha256.Sum256(hashedUUID[:])
 	encodedHash := hex.EncodeToString(doubleHashedUUID[:])
 	if encodedHash != b.ProofName {
 		return false

@@ -10,6 +10,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 package ElementProof
 
 import (
+	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
@@ -19,7 +20,6 @@ import (
 	"github.com/skuchain/doc_proofs/ProofElementStore"
 
 	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/fastsha256"
 )
 
 type SecP256k1SHA2ElementProof struct {
@@ -121,7 +121,7 @@ func (b *SecP256k1SHA2ElementProof) FromBytes(bits []byte) error {
 func (b *SecP256k1SHA2ElementProof) Hash(preImages [][]byte) bool {
 	count := 0
 	usedDigests := make([]bool, len(b.Digests))
-	hasher := fastsha256.New()
+	hasher := sha256.New()
 	for _, preImage := range preImages {
 		imageDigestRaw := hasher.Sum(preImage)
 		hasher.Reset()
