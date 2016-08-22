@@ -127,7 +127,7 @@ func (t *docProofsChainCode) Invoke(stub *shim.ChaincodeStub, function string, a
 
 	case "signProof":
 		proofBytes, err := stub.GetState("Proof:" + argsProof.Name)
-		if err != nil {
+		if err != nil || len(proofBytes) == 0 {
 			return nil, fmt.Errorf("Could not retrieve:%s", argsProof.Name)
 		}
 
@@ -163,7 +163,7 @@ func (t *docProofsChainCode) Invoke(stub *shim.ChaincodeStub, function string, a
 
 	case "revokeProof":
 		proofBytes, err := stub.GetState("Proof:" + argsProof.Name)
-		if err != nil {
+		if err != nil || len(proofBytes) == 0 {
 			return nil, fmt.Errorf("Could not retrieve:%s", argsProof.Name)
 		}
 
@@ -195,7 +195,7 @@ func (t *docProofsChainCode) Invoke(stub *shim.ChaincodeStub, function string, a
 	case "supersedeProof":
 
 		proofBytes, err := stub.GetState("Proof:" + argsProof.Name)
-		if err != nil {
+		if err != nil || len(proofBytes) == 0 {
 			return nil, fmt.Errorf("Could not retrieve:%s", argsProof.Name)
 		}
 
@@ -315,7 +315,7 @@ func (t *docProofsChainCode) Query(stub *shim.ChaincodeStub, function string, ar
 		name := args[0]
 		proofBytes, err := stub.GetState("Proof:" + name)
 
-		if err != nil {
+		if err != nil || len(proofBytes) == 0 {
 			return nil, fmt.Errorf("%s is not found", name)
 		}
 		secpProof := new(ElementProof.SecP256k1ElementProof)
